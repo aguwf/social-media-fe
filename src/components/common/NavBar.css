@@ -1,0 +1,11 @@
+.active {
+  border-bottom: solid 2px orange;
+}
+
+.active-color {
+  color: orange;
+}
+
+.non-active-color {
+  color: grey;
+}
