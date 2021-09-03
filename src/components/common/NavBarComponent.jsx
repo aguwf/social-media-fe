@@ -19,6 +19,8 @@ function NavBarComponent(props) {
   const [Selected, setSelected] = React.useState(false);
   const [showSearch, setShowSearch] = React.useState(false);
 
+  const default_avatar = 'https://res.cloudinary.com/thcx/image/upload/v1628583671/account_nqfbls.png'
+
   const history = useHistory();
   const { pathname } = useLocation();
 
@@ -123,7 +125,7 @@ function NavBarComponent(props) {
                 <img
                   width={25}
                   height={25}
-                  src={item.avatar.url}
+                  src={item?.avatar?.url || default_avatar}
                   alt='avatar'
                 />
               </div>
@@ -252,7 +254,7 @@ function NavBarComponent(props) {
                 <img
                   width='25rem'
                   height='25rem'
-                  src={User?.avatar?.url}
+                  src={User?.avatar?.url || default_avatar}
                   alt='Avatar'
                 />
               </Button>
@@ -269,7 +271,7 @@ function NavBarComponent(props) {
                       <img
                         width='50rem'
                         height='50rem'
-                        src={User?.avatar?.url}
+                        src={User?.avatar?.url || default_avatar}
                         alt={User?.fullname + 'Avatar'}
                         className='mr-5 p-2 bg-gray-300 rounded-full'
                       />{' '}

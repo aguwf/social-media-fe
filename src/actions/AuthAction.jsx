@@ -21,6 +21,10 @@ const signinRequest = createAction(constants.SIGNIN_REQUEST);
 const signinSuccess = createAction(constants.SIGNIN_SUCCESS);
 const signinFailure = createAction(constants.SIGNIN_FAILURE);
 
+const activeAccountRequest = createAction(constants.ACTIVE_ACCOUNT_REQUEST);
+const activeAccountSuccess = createAction(constants.ACTIVE_ACCOUNT_SUCCESS);
+const activeAccountFailure = createAction(constants.ACTIVE_ACCOUNT_FAILURE);
+
 export {
   auth,
   clearMsg,
@@ -34,4 +38,7 @@ export {
   logoutSuccess,
   logoutFailure,
   getCsrfToken,
+  activeAccountRequest,
+  activeAccountSuccess,
+  activeAccountFailure
 };

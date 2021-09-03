@@ -54,9 +54,25 @@ function* handleGetCsrfToken(action) {
   }
 }
 
+function* handleActiveAccount(action){
+  try {
+    const objFetch = {
+      url: `/api/account/activation`,
+      data: {
+        "activation_token": action.payload
+      }
+    };
+    const response = yield API.addData(objFetch)
+    yield put(authAction.activeAccountSuccess(response.data))
+  } catch (error) {
+    yield put(authAction.activeAccountFailure(error))
+  }
+}
+
 export const AuthSaga = [
   takeEvery(constants.SIGNIN_REQUEST, handleSignin),
   takeEvery(constants.SIGNUP_REQUEST, handleSignup),
   takeEvery(constants.GET_CSRF_TOKEN, handleGetCsrfToken),
   takeEvery(constants.LOGOUT_REQUEST, handleLogout),
+  takeEvery(constants.ACTIVE_ACCOUNT_REQUEST, handleActiveAccount)
 ];

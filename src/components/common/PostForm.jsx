@@ -8,6 +8,7 @@ import ModalFooter from '@material-tailwind/react/ModalFooter';
 import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart';
 import { RiChatSmile3Line } from 'react-icons/ri';
+import { TiDeleteOutline } from 'react-icons/ti';
 import {
   IoImagesOutline,
   IoLocationOutline,
@@ -15,6 +16,7 @@ import {
 } from 'react-icons/io5';
 
 function PostForm(props) {
+  const default_avatar = 'https://res.cloudinary.com/thcx/image/upload/v1628583671/account_nqfbls.png'
   const emotionRef = React.useRef(null);
   const initialPost = {
     content: '',
@@ -61,18 +63,27 @@ function PostForm(props) {
 
   const handleUploadImage = (event) => {
     const { files } = event.target;
-    const reader = new FileReader();
+    const dummyListSrc = listSrc
     if (files) {
       Array.from(files).forEach((img) => {
-        reader.readAsDataURL(img);
-        reader.onloadend = () => {
-          console.log(111, listSrc);
-          setListSrc(listSrc.push(reader.result));
-        };
+        dummyListSrc.push(URL.createObjectURL(img))
       });
-      setPost({ ...post, images: Array.from(files).map((item) => item) });
+      setListSrc([...dummyListSrc])
+      setPost({ ...post, images: [...post.images, ...Array.from(files).map((item) => item)] });
+      !showModal&&setShowModal(true)
     }
   };
+
+  const handleRemoveImg = (index) => {
+    const dummyListSrc = listSrc;
+    const dummyImages = post.images
+
+    dummyListSrc.splice(index, 1)
+    dummyImages.splice(index, 1)
+
+    setListSrc([...dummyListSrc])
+    setPost({...post, images: [...dummyImages]})
+  }
 
   const _tool = (
     <div className={'text-center'}>
@@ -82,6 +93,7 @@ function PostForm(props) {
         name='post-img'
         id='post-img'
         accept='image/*'
+        multiple
         onChange={handleUploadImage}
       />
       <label
@@ -107,11 +119,15 @@ function PostForm(props) {
     </div>
   );
 
-  console.log({ listSrc, post });
-  let _renderImage;
+  let _renderImage = [];
   if (listSrc) {
     _renderImage = listSrc.map((imgSrc, index) => {
-      return <img src={imgSrc} alt={'uploaded' + index} />;
+      return (
+        <div className={'relative'} style={{width: 'fit-content'}}>
+          <TiDeleteOutline color='gray' className={'absolute cursor-pointer rounded-full bg-white'} size={30} style={{top: '2%', right: '2%'}} onClick={() => handleRemoveImg(index)}/>
+          <img src={imgSrc} alt={'uploaded' + index} className={'object-cover'} style={{maxWidth: '10rem'}} />
+        </div>
+      );
     });
   }
 
@@ -121,7 +137,7 @@ function PostForm(props) {
         <div className={'flex'}>
           <div className='avatar'>
             <div className='rounded-full w-10 h-10'>
-              <img src={props?.avatar?.thumb200} alt={'avatar'} />
+              <img src={props?.avatar?.thumb200 || default_avatar} alt={'avatar'} />
             </div>
           </div>
           <div className={'ml-3 w-full'}>
@@ -152,7 +168,7 @@ function PostForm(props) {
                 <div className='ava'>
                   <img
                     className='rounded-full w-12 h-12 object-cover'
-                    src={props?.avatar?.thumb200}
+                    src={props?.avatar?.thumb200 || default_avatar}
                     alt={'avatar'}
                   />
                 </div>
@@ -180,27 +196,32 @@ function PostForm(props) {
                 <div
                   ref={emotionRef}
                   className={
-                    'flex items-center justify-center w-10 h-10 cursor-pointer rounded-full relative mr-3 hover:bg-gray-200'
+                    'flex items-center justify-center w-10 h-10 cursor-pointer rounded-full relative mr-3 hover:bg-gray-200 relative'
                   }
                   onClick={handleOpenEmoji}
                 >
                   <RiChatSmile3Line color={'gray'} size={30} />
-                </div>
-                <div hidden={openEmotion} ref={emotionRef}>
-                  <Picker
-                    showPreview={false}
-                    title='Pick your emoji…'
-                    style={{
-                      position: 'absolute',
-                      top: '30%',
-                      right: '0%',
-                    }}
-                    onSelect={(e) => handleAddEmoji(e)}
-                  />
+                  <div hidden={openEmotion} ref={emotionRef}>
+                    <Picker
+                      showPreview={false}
+                      title='Pick your emoji…'
+                      style={{
+                        position: 'absolute',
+                        top: '100%',
+                        right: '0%',
+                        zIndex: 1
+                      }}
+                      onSelect={(e) => handleAddEmoji(e)}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-            {_renderImage}
+
+            <div className={'grid grid-cols-3 grid-flow-row-dense'} style={{ gridTemplateRows:'repeat(auto-fill, 1fr)'}}>
+              {_renderImage}
+            </div>
+
             <div
               className={
                 'flex items-center justify-around border-2 border-solid border-gray-400 rounded-lg mt-5 p-3'

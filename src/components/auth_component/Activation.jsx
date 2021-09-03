@@ -9,10 +9,11 @@ import success_active from '../../assets/images/tick.png';
 function Activation(props) {
   const { id } = useParams();
 
+  console.log(props);
+
   React.useEffect(() => {
     if (id) {
-      console.log('ban rq active account');
-      //   props.activeAccountRequest();
+        props.activeAccountRequest(id);
     }
   }, [id]);
   return (

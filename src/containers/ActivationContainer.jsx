@@ -8,7 +8,7 @@ import * as authAction from '../actions/AuthAction';
 export const ActivationContainer = (props) => {
   return (
     <div>
-      <Activation activeAccountRequest={() => props.activeAccountRequest()} />
+      <Activation activeAccountRequest = {(data) => props.activeAccountRequest(data)} />
     </div>
   );
 };
@@ -16,7 +16,7 @@ export const ActivationContainer = (props) => {
 const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch) => ({
-  activeAccountRequest: () => dispatch(authAction.activeAccountRequest()),
+  activeAccountRequest: (data) => dispatch(authAction.activeAccountRequest(data)),
 });
 
 export default connect(

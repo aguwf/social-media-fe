@@ -22,6 +22,7 @@ const AuthReducer = (state = initialState, action) => {
     case constants.SIGNIN_REQUEST:
     case constants.LOGOUT_REQUEST:
     case constants.SIGNUP_REQUEST:
+    case constants.ACTIVE_ACCOUNT_REQUEST:
       return {
         ...state,
         isFetching: true,
@@ -30,6 +31,8 @@ const AuthReducer = (state = initialState, action) => {
     case constants.SIGNIN_FAILURE:
     case constants.LOGOUT_FAILURE:
     case constants.SIGNUP_FAILURE:
+    case constants.SIGNUP_SUCCESS:
+    case constants.ACTIVE_ACCOUNT_FAILURE:
       return {
         ...state,
         error: true,
@@ -38,7 +41,7 @@ const AuthReducer = (state = initialState, action) => {
       };
 
     case constants.SIGNIN_SUCCESS:
-    case constants.SIGNUP_SUCCESS:
+    case constants.ACTIVE_ACCOUNT_SUCCESS:
       localStorage.setItem(
         'profile',
         JSON.stringify({

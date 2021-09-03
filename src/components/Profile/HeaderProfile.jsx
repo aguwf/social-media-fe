@@ -4,6 +4,7 @@ import React from 'react';
 import Image from '@material-tailwind/react/Image';
 
 function HeaderProfile(props) {
+  const default_avatar = 'https://res.cloudinary.com/thcx/image/upload/v1628583671/account_nqfbls.png'
   return (
     <div>
       <div className='cover'>
@@ -28,7 +29,7 @@ function HeaderProfile(props) {
             border: '4px solid white',
             objectFit: 'cover',
           }}
-          src={props?.userDetail?.avatar?.url}
+          src={props?.userDetail?.avatar?.url || default_avatar}
           rounded={true}
           raised={false}
           alt={props?.user?.fullname + ' avatar.'}
