@@ -1,15 +1,20 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react'
+/**
+ * /* eslint-disable react-hooks/exhaustive-deps
+ *
+ * @format
+ */
+
+import React from 'react';
 
 function Toast(props) {
   React.useEffect(() => {
     setInterval(() => {
-      props.setShowToast(false)
-    }, 4 * 1000)
-  }, [])
+      props.setShowToast(false);
+    }, 4 * 1000);
+  }, []);
   return (
     <div
-      className={`flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800 absolute z-10 top-10 right-5`}
+      className={`flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800 absolute z-20 top-10 right-5`}
     >
       {!props.error ? (
         <div className='flex items-center justify-center w-12 bg-green-500'>
@@ -66,7 +71,7 @@ function Toast(props) {
         </button>
       </div>
     </div>
-  )
+  );
 }
 
-export default Toast
+export default Toast;

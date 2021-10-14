@@ -43,12 +43,14 @@ function LoginComponent(props) {
   return (
     <div
       className='min-h-screen flex items-center justify-center bg-white py-12 px-4 sm:px-6 lg:px-8'
-      style={{
-        backgroundImage: `url(${meo_network_background})`,
-        backgroundSize: '750px',
-      }}
+      style={
+        {
+          // backgroundImage: `url(${meo_network_background})`,
+          // backgroundSize: '750px',
+        }
+      }
     >
-      <div className='max-w-md w-full space-y-8 shadow-4xl rounded-xl p-9 bg-white dark:bg-gray-800'>
+      <div className='max-w-3/10 w-full space-y-8 shadow-4xl rounded-xl p-9 bg-white dark:bg-gray-800'>
         <div>
           <img
             className='mx-auto h-12 w-auto'

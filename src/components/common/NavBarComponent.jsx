@@ -14,12 +14,14 @@ import './NavBar.css';
 import { useHistory, useLocation } from 'react-router-dom';
 
 function NavBarComponent(props) {
-  const User = JSON.parse(localStorage.getItem('profile'));
+  console.log(props);
+  const currentUser = JSON.parse(localStorage.getItem('profile')).user;
 
   const [Selected, setSelected] = React.useState(false);
   const [showSearch, setShowSearch] = React.useState(false);
 
-  const default_avatar = 'https://res.cloudinary.com/thcx/image/upload/v1628583671/account_nqfbls.png'
+  const default_avatar =
+    'https://res.cloudinary.com/thcx/image/upload/v1628583671/account_nqfbls.png';
 
   const history = useHistory();
   const { pathname } = useLocation();
@@ -85,13 +87,29 @@ function NavBarComponent(props) {
     setSelected((preSelect) => !preSelect);
   };
 
+  function debounce(fn, delay) {
+    return (args) => {
+      clearTimeout(fn.id);
+
+      fn.id = setTimeout(() => {
+        fn.call(this, args);
+      }, delay);
+    };
+  }
+
+  const debounceSearch = React.useCallback(
+    debounce(
+      (nextValue) => props.searchRequest({ textSearch: nextValue }),
+      1000,
+    ),
+    [],
+  );
+
   const handleChangeSearch = (event) => {
     const { value } = event.target;
 
     if (value) {
-      setTimeout(() => {
-        props.searchRequest({ textSearch: value });
-      }, 1000);
+      debounceSearch(value);
     } else {
       setShowSearch(false);
     }
@@ -109,11 +127,11 @@ function NavBarComponent(props) {
     }
   };
 
-  const searchResult = props?.searchResult &&
+  const searchResult = props?.listUser &&
     showSearch &&
     inputRef.current.value && (
       <div className='transition duration-500 ease-in-out mt-2 absolute w-80 h-80 bg-gray-200 p-4 shadow-2xl rounded-xl'>
-        {props.searchResult.map((item, index) => {
+        {props.listUser.map((item, index) => {
           return (
             <div
               className=' flex px-2 py-4 cursor-pointer rounded-xl hover:bg-gray-300 z-10'
@@ -121,7 +139,7 @@ function NavBarComponent(props) {
               ref={wrapperRef}
               key={index}
             >
-              <div onClick={() => console.log(1111)}>
+              <div>
                 <img
                   width={25}
                   height={25}
@@ -137,7 +155,7 @@ function NavBarComponent(props) {
     );
 
   return (
-    <nav className='bg-white shadow dark:bg-gray-800'>
+    <nav className='bg-white shadow dark:bg-gray-800 sticky top-0 z-10'>
       <div
         className='container px-6 py-3 mx-auto'
         style={{ maxWidth: '100vw' }}
@@ -149,12 +167,12 @@ function NavBarComponent(props) {
                 className='text-2xl font-bold text-gray-800 dark:text-white lg:text-3xl hover:text-gray-700 dark:hover:text-gray-300'
                 href='/'
               >
-                Meo's Network
+                Meow's Coffee
               </a>
 
               <div className='mx-10 md:block'>
-                <div className='relative'>
-                  <span className='absolute inset-y-0 left-0 flex items-center pl-3'>
+                <div className='relative flex items-center'>
+                  <span className='absolute inset-y-0 left-0 pl-3'>
                     <svg
                       className='w-5 h-5 text-gray-400'
                       viewBox='0 0 24 24'
@@ -184,8 +202,8 @@ function NavBarComponent(props) {
             </div>
           </div>
 
-          <div className='items-center justify-between md:flex'>
-            <div className='flex flex-col mt-2 md:flex-row md:mt-0 md:mx-1'>
+          <div className='flex items-center justify-between md:flex'>
+            <div className='flex flex-col mt-2 md:flex-row md:mt-0 md:mx-1 w-80 justify-between'>
               <Button
                 color='transparent'
                 ripple='dark'
@@ -252,31 +270,36 @@ function NavBarComponent(props) {
                 onClick={handleSelected}
               >
                 <img
+                  className={'rounded-full'}
                   width='25rem'
                   height='25rem'
-                  src={User?.avatar?.url || default_avatar}
+                  src={currentUser?.avatar?.url || default_avatar}
                   alt='Avatar'
                 />
               </Button>
             </div>
             <Popover placement='bottom' ref={avatarRef}>
-              <PopoverContainer className='bg-gray-200'>
-                <PopoverHeader>Settings</PopoverHeader>
+              <PopoverContainer className='bg-gray-200 dark:bg-bunker-500'>
+                <PopoverHeader className='text-bunker-800 dark:text-gray-400'>
+                  Settings
+                </PopoverHeader>
                 <PopoverBody>
                   <a
-                    href={`/profile/${User?.user?._id}`}
+                    href={`/profile/${currentUser?._id}`}
                     className='block py-1 px-5 hover:bg-gray-100 rounded-xl w-full'
                   >
-                    <h3 className='flex items-center font-medium py-2 px-full text-gray-700 dark:text-gray-100 '>
+                    <h3 className='flex items-center font-medium py-2 px-full text-gray-700 dark:text-gray-400'>
                       <img
                         width='50rem'
                         height='50rem'
-                        src={User?.avatar?.url || default_avatar}
-                        alt={User?.fullname + 'Avatar'}
-                        className='mr-5 p-2 bg-gray-300 rounded-full'
+                        src={currentUser?.avatar?.url || default_avatar}
+                        alt={currentUser?.user?.fullname + 'Avatar'}
+                        className='mr-5 p-1 bg-gray-300 rounded-full'
                       />{' '}
                       <div>
-                        <h1 className='text-xl font-bold'>Thai Tran</h1>
+                        <h1 className='text-xl font-bold'>
+                          {currentUser?.fullname}
+                        </h1>
                         View your profile
                       </div>
                     </h3>
@@ -286,7 +309,7 @@ function NavBarComponent(props) {
                     href='/#'
                     className='block py-1 px-5 hover:bg-gray-100 rounded-xl w-full'
                   >
-                    <h3 className='flex items-center font-medium py-2 px-full text-gray-700 dark:text-gray-100 '>
+                    <h3 className='flex items-center font-medium py-2 px-full text-bunker-500 dark:text-gray-400 '>
                       <FiMoon
                         className='mr-5 p-2 bg-gray-300 rounded-full'
                         size='2rem'
@@ -298,7 +321,7 @@ function NavBarComponent(props) {
                     className='block py-1 px-5 cursor-pointer hover:bg-gray-100 rounded-xl w-full'
                     onClick={handleLogout}
                   >
-                    <h3 className='flex items-center font-medium py-2 px-full text-gray-700 dark:text-gray-100 '>
+                    <h3 className='flex items-center font-medium py-2 px-full text-bunker-500 dark:text-gray-400 '>
                       <IoLogOutOutline
                         className='mr-5 p-2 bg-gray-300 rounded-full'
                         size='2rem'
@@ -309,32 +332,6 @@ function NavBarComponent(props) {
                 </PopoverBody>
               </PopoverContainer>
             </Popover>
-
-            <div className='mt-3 md:hidden'>
-              <div className='relative'>
-                <span className='absolute inset-y-0 left-0 flex items-center pl-3'>
-                  <svg
-                    className='w-5 h-5 text-gray-400'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                  >
-                    <path
-                      d='M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z'
-                      stroke='currentColor'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                    ></path>
-                  </svg>
-                </span>
-
-                <input
-                  type='text'
-                  className='w-full py-2 pl-10 pr-4 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring'
-                  placeholder='Search'
-                />
-              </div>
-            </div>
           </div>
         </div>
       </div>

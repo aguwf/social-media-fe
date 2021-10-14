@@ -31,7 +31,6 @@ const AuthReducer = (state = initialState, action) => {
     case constants.SIGNIN_FAILURE:
     case constants.LOGOUT_FAILURE:
     case constants.SIGNUP_FAILURE:
-    case constants.SIGNUP_SUCCESS:
     case constants.ACTIVE_ACCOUNT_FAILURE:
       return {
         ...state,
@@ -41,11 +40,12 @@ const AuthReducer = (state = initialState, action) => {
       };
 
     case constants.SIGNIN_SUCCESS:
+    case constants.SIGNUP_SUCCESS:
     case constants.ACTIVE_ACCOUNT_SUCCESS:
       localStorage.setItem(
         'profile',
         JSON.stringify({
-          user: action.payload.user,
+          user: action.payload.userDetail,
           username: action.payload.username,
         }),
       );

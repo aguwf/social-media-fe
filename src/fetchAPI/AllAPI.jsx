@@ -19,6 +19,7 @@ const getData = async (dataSend) => {
 };
 
 const addData = async (dataSend) => {
+  console.log(dataSend);
   const response = await axios
     .post(dataSend.url, dataSend.data)
     .catch((error) => {
@@ -32,6 +33,17 @@ const addData = async (dataSend) => {
 const updateData = async (dataSend) => {
   const response = await axios
     .put(dataSend.url, dataSend.data)
+    .catch((error) => {
+      return new Promise((_resolve, reject) => {
+        reject(error);
+      });
+    });
+  return response;
+};
+
+const patchData = async (dataSend) => {
+  const response = await axios
+    .patch(dataSend.url, dataSend.data)
     .catch((error) => {
       return new Promise((_resolve, reject) => {
         reject(error);
@@ -84,6 +96,7 @@ export {
   getData,
   addData,
   updateData,
+  patchData,
   deleteData,
   signin,
   signup,

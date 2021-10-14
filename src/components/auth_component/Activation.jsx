@@ -3,17 +3,15 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import meo_network_background from '../../assets/images/kitty_generated.jpg';
-import success_signup from '../../assets/images/SuccessSignup.png';
+import success_signup from '../../assets/images/success.gif';
 import success_active from '../../assets/images/tick.png';
 
 function Activation(props) {
   const { id } = useParams();
 
-  console.log(props);
-
   React.useEffect(() => {
     if (id) {
-        props.activeAccountRequest(id);
+      props.activeAccountRequest(id);
     }
   }, [id]);
   return (

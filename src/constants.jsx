@@ -1,5 +1,22 @@
 /** @format */
 
+const createActionTypeSet = (action) => {
+  return {
+    REQUEST: action + '_REQUEST',
+    SUCCESS: action + '_SUCCESS',
+    FAILURE: action + '_FAILURE',
+  };
+};
+
+export const UPDATE_PROFILE = createActionTypeSet('UPDATE_PROFILE');
+export const GET_SINGLE_USER = createActionTypeSet('GET_SINGLE_USER');
+export const UPLOAD_IMAGE = createActionTypeSet('UPLOAD_IMAGE');
+export const LIKE_POST = createActionTypeSet('LIKE_POST');
+export const COMMENT_POST = createActionTypeSet('COMMENT_POST');
+export const GET_ALL_POST = createActionTypeSet('GET_ALL_POST');
+export const ADD_POST = createActionTypeSet('ADD_POST');
+export const DELETE_POST = createActionTypeSet('DELETE_POST');
+
 export const DOMAIN = 'http://192.168.0.103:3333';
 // export const DOMAIN = 'https://nodejs-memory-mern.herokuapp.com'
 

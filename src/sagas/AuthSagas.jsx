@@ -8,7 +8,7 @@ import * as API from '../fetchAPI/AllAPI';
 function* handleSignin(action) {
   try {
     const objFetch = {
-      url: `/api/account/login`,
+      url: `/api/accounts/login`,
       data: action.payload.User,
     };
     const response = yield API.signin(objFetch);
@@ -21,11 +21,12 @@ function* handleSignin(action) {
 function* handleSignup(action) {
   try {
     const objFetch = {
-      url: `/api/account/signup`,
+      url: `/api/accounts/signup`,
       data: action.payload.User,
     };
     const response = yield API.signup(objFetch);
     yield put(authAction.signupSuccess(response.data));
+    action.payload.history.push('/activation');
   } catch (error) {
     yield put(authAction.signupFailure(error.response.data.error));
   }
@@ -34,7 +35,7 @@ function* handleSignup(action) {
 function* handleLogout(action) {
   try {
     const objFetch = {
-      url: `/api/account/logout`,
+      url: `/api/accounts/logout`,
     };
     const response = yield API.logout(objFetch);
     yield put(authAction.logoutSuccess(response.data));
@@ -54,18 +55,18 @@ function* handleGetCsrfToken(action) {
   }
 }
 
-function* handleActiveAccount(action){
+function* handleActiveAccount(action) {
   try {
     const objFetch = {
-      url: `/api/account/activation`,
+      url: `/api/accounts/activation`,
       data: {
-        "activation_token": action.payload
-      }
+        activation_token: action.payload,
+      },
     };
-    const response = yield API.addData(objFetch)
-    yield put(authAction.activeAccountSuccess(response.data))
+    const response = yield API.addData(objFetch);
+    yield put(authAction.activeAccountSuccess(response.data));
   } catch (error) {
-    yield put(authAction.activeAccountFailure(error))
+    yield put(authAction.activeAccountFailure(error));
   }
 }
 
@@ -74,5 +75,5 @@ export const AuthSaga = [
   takeEvery(constants.SIGNUP_REQUEST, handleSignup),
   takeEvery(constants.GET_CSRF_TOKEN, handleGetCsrfToken),
   takeEvery(constants.LOGOUT_REQUEST, handleLogout),
-  takeEvery(constants.ACTIVE_ACCOUNT_REQUEST, handleActiveAccount)
+  takeEvery(constants.ACTIVE_ACCOUNT_REQUEST, handleActiveAccount),
 ];

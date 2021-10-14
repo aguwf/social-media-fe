@@ -25,6 +25,15 @@ export const LoginContainer = (props) => {
   }, [User, history]);
 
   React.useEffect(() => {
+    if (!ShowToast && (props.errMsg || props.ssMsg)) {
+      setShowToast(true);
+      setTimeout(() => {
+        props.clearMsg();
+      }, 6 * 1000);
+    }
+  }, [props]);
+
+  React.useEffect(() => {
     !ShowToast && (props.errMsg || props.ssMsg) && setShowToast(true);
   }, [props]);
 
@@ -56,6 +65,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   loginRequest: (data) => dispatch(authAction.signinRequest(data)),
   getCsrfToken: () => dispatch(authAction.getCsrfToken()),
+  clearMsg: () => dispatch(authAction.clearMsg()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);
