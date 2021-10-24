@@ -19,7 +19,6 @@ const getData = async (dataSend) => {
 };
 
 const addData = async (dataSend) => {
-  console.log(dataSend);
   const response = await axios
     .post(dataSend.url, dataSend.data)
     .catch((error) => {

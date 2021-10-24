@@ -16,6 +16,7 @@ import Information from '../components/Profile/Information';
 import Photo from '../components/Profile/Photo';
 import Post from '../components/common/Post';
 import PostForm from '../components/common/PostForm';
+import ShopContainer from './ShopContainer';
 
 export const ProfileContainer = (props) => {
   const [openTab, setOpenTab] = React.useState(1);
@@ -86,6 +87,13 @@ export const ProfileContainer = (props) => {
       break;
     case 4:
       _renderTab = <div>Photo</div>;
+      break;
+    case 5:
+      _renderTab = (
+        <div>
+          <ShopContainer />
+        </div>
+      );
       break;
 
     default:

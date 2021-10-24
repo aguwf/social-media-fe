@@ -17,6 +17,18 @@ export const GET_ALL_POST = createActionTypeSet('GET_ALL_POST');
 export const ADD_POST = createActionTypeSet('ADD_POST');
 export const DELETE_POST = createActionTypeSet('DELETE_POST');
 
+//Category
+export const GET_CATEGORY = createActionTypeSet('GET_CATEGORY');
+export const ADD_CATEGORY = createActionTypeSet('ADD_CATEGORY');
+export const UPDATE_CATEGORY = createActionTypeSet('UPDATE_CATEGORY');
+export const DELETE_CATEGORY = createActionTypeSet('DELETE_CATEGORY');
+
+//Category
+export const GET_PRODUCT = createActionTypeSet('GET_PRODUCT');
+export const ADD_PRODUCT = createActionTypeSet('ADD_PRODUCT');
+export const UPDATE_PRODUCT = createActionTypeSet('UPDATE_PRODUCT');
+export const DELETE_PRODUCT = createActionTypeSet('DELETE_PRODUCT');
+
 export const DOMAIN = 'http://192.168.0.103:3333';
 // export const DOMAIN = 'https://nodejs-memory-mern.herokuapp.com'
 

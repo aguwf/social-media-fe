@@ -448,10 +448,16 @@ function Post(props) {
             placeholder='Write a comment ...'
           />
           {_renderImage}
-          <Box>
-            <Comment />
-          </Box>
         </Stack>
+        <Box>
+          {post?.comments.map((comment, index) => (
+            <Comment
+              key={index}
+              content={comment.content}
+              owner={comment?.owner}
+            />
+          ))}
+        </Box>
       </Box>
     </Box>
   );

@@ -9,7 +9,7 @@ import Loading from './components/common/Loading';
 
 const Routes = () => {
   const { authData } = useSelector((state) => state.auth);
-  const User = JSON.parse(localStorage.getItem('profile'));
+  const User = JSON.parse(localStorage.getItem('profile')).user;
   return (
     <Router>
       <Switch>
@@ -17,7 +17,7 @@ const Routes = () => {
           <Route
             exact
             path={'/'}
-            component={authData || User ? Pages.home : Pages.login}
+            component={authData || User?.fullname ? Pages.home : Pages.login}
           />
           <Route
             exact
@@ -25,7 +25,6 @@ const Routes = () => {
             component={Pages.activation}
           />
           <Route exact path={'/user/activation'} component={Pages.activation} />
-          <Route exact path={'/:page'} component={PageRender} />
           <Route exact path={'/:page/:id'} component={PageRender} />
         </Suspense>
       </Switch>

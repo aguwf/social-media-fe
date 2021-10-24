@@ -93,6 +93,18 @@ function HeaderProfile(props) {
               >
                 Photos
               </div>
+
+              <div
+                className={
+                  (props.openTab === 5
+                    ? 'border-zest-500'
+                    : 'border-transparent hover:bg-gray-200') +
+                  ' cursor-pointer rounded-lg text-lg font-bold px-4 py-2 border-b-2 hover:text-gray-800 dark:hover:text-gray-200 mx-1.5 sm:mx-6'
+                }
+                onClick={() => props.setOpenTab(5)}
+              >
+                Shop
+              </div>
             </div>
             <div>
               <button

@@ -10,7 +10,7 @@ export const RegisterContainer = (props) => {
   const history = useHistory();
   const User = JSON.parse(localStorage.getItem('profile'));
   React.useEffect(() => {
-    if (User) {
+    if (User.fullname) {
       history.push('/');
     }
   }, [User, history]);
